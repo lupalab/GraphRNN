@@ -1,5 +1,7 @@
 import networkx as nx
 import numpy as np
+import glob
+import pickle as pkl
 
 from utils import *
 from data import *
@@ -148,8 +150,22 @@ def create(args):
                 graphs.append(G_ego)
         shuffle(graphs)
         graphs = graphs[0:200]
-        args.max_prev_node = 15
-
+        args.max_prev_node = 15 
+    elif args.graph_type == 'generated':
+        graphs = []
+        file_list = glob.glob('./generated_graphs/*.pkl')
+        file_list = [s for s in file_list
+                    if args.generated_name in s
+                    and 
+                    args.generated_size in s]
+        print('File_list:\n{}'.format(file_list))
+        for file in file_list:
+            A = pkl.load(open(file, 'rb'), encoding='latin-1')
+            for graph in A['data']:    
+                G = nx.from_numpy_matrix(graph)
+                graphs.append(G)
+        args.max_prev_node = 63
+ 
     return graphs
 
 
