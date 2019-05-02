@@ -695,8 +695,12 @@ def train(args, dataset_train, rnn, output):
                         G_pred_step = test_rnn_epoch(epoch, args, rnn, output, test_batch_size=args.test_batch_size)
                     G_pred.extend(G_pred_step)
                 # save graphs
-                fname = args.graph_save_path + args.fname_pred + str(epoch) +'_'+str(sample_time) + '.dat'
+                fname = os.path.join(args.graph_save_path+args.generated_name+'_'+args.generated_size,
+                        args.fname+'_'+str(epoch)+'_'+str(sample_time)+'.dat')
                 save_graph_list(G_pred, fname)
+                fname = os.path.join(args.figure_save_path+args.generated_name+'_'+args.generated_size,
+                        args.fname+'_'+str(epoch)+'_'+str(sample_time))
+                draw_graph_list(random.sample(G_pred,25), 5, 5, fname)
                 if 'GraphRNN_RNN' in args.note:
                     break
             print('test done, graphs saved')
