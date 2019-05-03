@@ -162,9 +162,6 @@ dmypy.json
 
 # Created by the repo
 tensorboard/
-graphs/
 model_save/
-figures/
 timing/
-figures_prediction/
 nll/
